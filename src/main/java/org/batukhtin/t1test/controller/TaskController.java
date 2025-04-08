@@ -1,0 +1,50 @@
+package org.batukhtin.t1test.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.batukhtin.t1test.context.UserContext;
+import org.batukhtin.t1test.dto.TaskDto;
+import org.batukhtin.t1test.dto.TaskRs;
+import org.batukhtin.t1test.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/tasks")
+@RequiredArgsConstructor
+public class TaskController {
+
+    private final TaskService taskService;
+
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskRs createTask(@RequestBody TaskDto taskDto) {
+        return taskService.createTask(taskDto);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskRs getTask(@PathVariable Long id) {
+        return taskService.getTask(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long id) {
+        return taskService.updateTask(id,taskDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskRs> getAll() {
+        return taskService.getAllTasks();
+    }
+}
