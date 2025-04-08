@@ -1,8 +1,10 @@
 package org.batukhtin.t1test.exception;
 
-import org.batukhtin.t1test.exception.base.AbstractExceptionHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-public class ResourceNotFoundException extends AbstractExceptionHandler {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
         super(message);
     }

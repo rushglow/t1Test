@@ -15,6 +15,7 @@ import java.util.Arrays;
 @Component
 @Slf4j
 public class LoggingAspect {
+
     @Before("@annotation(org.batukhtin.t1test.aspect.annotation.LogExecution)")
     public void loggingBefore(JoinPoint joinPoint) {
         log.info("Called method: " + joinPoint.getSignature().getName() + "with parameters: " + Arrays.toString(joinPoint.getArgs()));

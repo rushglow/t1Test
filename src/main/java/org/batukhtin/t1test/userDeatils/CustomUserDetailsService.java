@@ -2,6 +2,7 @@ package org.batukhtin.t1test.userDeatils;
 
 import lombok.AllArgsConstructor;
 import org.batukhtin.t1test.model.UserEntity;
+import org.batukhtin.t1test.repository.UserRepository;
 import org.batukhtin.t1test.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,12 +16,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> user = userService.findUserByUsername(username);
+        Optional<UserEntity> user = userRepository.findUserByUsername(username);
 
         if (user.isPresent()) {
             return new CustomUserDetails(user.get());
