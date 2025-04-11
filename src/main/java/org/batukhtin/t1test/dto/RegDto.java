@@ -10,6 +10,8 @@ public class RegDto {
 
     private String username;
 
+    private String mail;
+
     private String password;
 
 }

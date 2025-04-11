@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.batukhtin.t1test.context.UserContext;
 import org.batukhtin.t1test.dto.TaskDto;
 import org.batukhtin.t1test.dto.TaskRs;
+import org.batukhtin.t1test.model.enums.TaskStatus;
 import org.batukhtin.t1test.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,22 +25,10 @@ public class TaskController {
         return taskService.createTask(taskDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{taskId}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskRs getTask(@PathVariable Long id) {
-        return taskService.getTask(id);
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long id) {
-        return taskService.updateTask(id,taskDto);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public TaskRs getTask(@PathVariable Long taskId) {
+        return taskService.getTask(taskId);
     }
 
     @GetMapping()
@@ -47,4 +36,23 @@ public class TaskController {
     public List<TaskRs> getAll() {
         return taskService.getAllTasks();
     }
+
+    @PutMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long taskId) {
+        return taskService.updateTask(taskId,taskDto);
+    }
+
+    @PutMapping("/{taskId}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskRs updateTaskStatus(@PathVariable Long taskId, @RequestBody TaskDto taskDto) {
+        return taskService.updateTaskStatus(taskId, taskDto);
+    }
+
+    @DeleteMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
+    }
+
 }
