@@ -24,22 +24,9 @@ public class TaskController {
         return taskService.createTask(taskDto);
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TaskRs getTask(@PathVariable Long id) {
-        return taskService.getTask(id);
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long id) {
-        return taskService.updateTask(id,taskDto);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    @GetMapping("/{taskId}")
+    public TaskRs getTask(@PathVariable Long taskId) {
+        return taskService.getTask(taskId);
     }
 
     @GetMapping()
@@ -47,4 +34,20 @@ public class TaskController {
     public List<TaskRs> getAll() {
         return taskService.getAllTasks();
     }
+
+    @PutMapping("/{taskId}")
+    public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long taskId) {
+        return taskService.updateTask(taskId,taskDto);
+    }
+
+    @PutMapping("/{taskId}/status")
+    public TaskRs updateTaskStatus(@PathVariable Long taskId, @RequestBody TaskDto taskDto) {
+        return taskService.updateTaskStatus(taskId, taskDto);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public void deleteTask(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
+    }
+
 }

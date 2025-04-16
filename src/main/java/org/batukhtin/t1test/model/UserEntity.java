@@ -21,6 +21,9 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
 
+    @Column(unique = true)
+    private String mail;
+
     private String password;
 
     private String role = "ROLE_USER";
