@@ -32,7 +32,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
 t1:
   scan-path: org.batukhtin.t1test
   kafka:
@@ -53,3 +52,7 @@ t1:
 
 server:
   port: ${APP_PORT}
+
+
+logging-starter:
+  root: "INFO"

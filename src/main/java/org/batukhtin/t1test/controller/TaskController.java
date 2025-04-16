@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.batukhtin.t1test.context.UserContext;
 import org.batukhtin.t1test.dto.TaskDto;
 import org.batukhtin.t1test.dto.TaskRs;
-import org.batukhtin.t1test.model.enums.TaskStatus;
 import org.batukhtin.t1test.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,6 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    @ResponseStatus(HttpStatus.OK)
     public TaskRs getTask(@PathVariable Long taskId) {
         return taskService.getTask(taskId);
     }
@@ -38,19 +36,16 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    @ResponseStatus(HttpStatus.OK)
     public TaskRs updateTask(@RequestBody TaskDto taskDto, @PathVariable Long taskId) {
         return taskService.updateTask(taskId,taskDto);
     }
 
     @PutMapping("/{taskId}/status")
-    @ResponseStatus(HttpStatus.OK)
     public TaskRs updateTaskStatus(@PathVariable Long taskId, @RequestBody TaskDto taskDto) {
         return taskService.updateTaskStatus(taskId, taskDto);
     }
 
     @DeleteMapping("/{taskId}")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@PathVariable Long taskId) {
         taskService.deleteTask(taskId);
     }

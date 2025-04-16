@@ -1,7 +1,6 @@
 package org.batukhtin.t1test.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.batukhtin.t1test.aspect.annotation.HandlingResult;
 import org.batukhtin.t1test.dto.RegDto;
 import org.batukhtin.t1test.dto.UserDto;
 import org.batukhtin.t1test.exception.ResourceNotFoundException;
@@ -21,12 +20,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @HandlingResult
+    @org.batukhtin.t1starter.aspect.annotation.HandlingResult
     public UserDto createUser(RegDto regDto) throws RuntimeException  {
         userRepository.findUserByUsername(regDto.getUsername()).ifPresent(user -> {
                     throw new UserAlreadyExists("User with this username already exists");
                 });
-
         return userMapper.toUserDto(userRepository.save(userMapper.toUserEntity(regDto)));
     }
 

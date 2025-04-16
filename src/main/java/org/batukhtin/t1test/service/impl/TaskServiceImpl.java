@@ -2,9 +2,9 @@ package org.batukhtin.t1test.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.batukhtin.t1test.aspect.annotation.LogException;
-import org.batukhtin.t1test.aspect.annotation.LogExecution;
-import org.batukhtin.t1test.aspect.annotation.PerfomanceTracking;
+import org.batukhtin.t1starter.aspect.annotation.LogException;
+import org.batukhtin.t1starter.aspect.annotation.LogExecution;
+import org.batukhtin.t1starter.aspect.annotation.PerfomanceTracking;
 import org.batukhtin.t1test.context.UserContext;
 import org.batukhtin.t1test.dto.TaskDto;
 import org.batukhtin.t1test.dto.TaskRs;
@@ -14,7 +14,6 @@ import org.batukhtin.t1test.kafka.KafkaTaskUpdateProducer;
 import org.batukhtin.t1test.mapper.TaskMapper;
 import org.batukhtin.t1test.model.TaskEntity;
 import org.batukhtin.t1test.model.UserEntity;
-import org.batukhtin.t1test.model.enums.TaskStatus;
 import org.batukhtin.t1test.repository.TaskRepository;
 import org.batukhtin.t1test.repository.UserRepository;
 import org.batukhtin.t1test.service.NotificationService;
@@ -94,16 +93,20 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity taskEntity = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 
-        taskEntity.setStatus(taskDto.getStatus());
-        taskEntity = taskRepository.save(taskEntity);
+        if (!taskEntity.getStatus().equals(taskDto.getStatus())){
 
-        TaskStatusUpdateMessage message = new TaskStatusUpdateMessage(
-                taskEntity.getId(),
-                taskEntity.getTitle(),
-                taskEntity.getStatus(),
-                taskEntity.getUser().getMail()
-        );
-        kafkaProducer.sendTo(topic, message);
+            taskEntity.setStatus(taskDto.getStatus());
+            taskEntity = taskRepository.save(taskEntity);
+
+            TaskStatusUpdateMessage message = new TaskStatusUpdateMessage(
+                    taskEntity.getId(),
+                    taskEntity.getTitle(),
+                    taskEntity.getStatus(),
+                    taskEntity.getUser().getMail()
+            );
+            kafkaProducer.sendTo(topic, message);
+
+        }
 
         return taskMapper.toTaskRs(taskEntity);
     }
