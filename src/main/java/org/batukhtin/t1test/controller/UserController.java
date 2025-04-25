@@ -1,5 +1,6 @@
 package org.batukhtin.t1test.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.batukhtin.t1test.dto.RegDto;
@@ -22,7 +23,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto registerUser(@RequestBody RegDto regDto) {
+    public UserDto registerUser(@Valid @RequestBody RegDto regDto) {
         return userService.createUser(regDto);
     }
 }

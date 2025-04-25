@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
         Long userId = userRepository.findUserByUsername(userContext.getCurrentUser().get().getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found")).getId();
 
-        taskRepository.deleteById(taskId);
+        taskRepository.deleteByIdAndUserId(taskId, userId);
     }
 
     @Override
