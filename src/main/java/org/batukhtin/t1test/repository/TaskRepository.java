@@ -20,4 +20,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
             "FROM TaskEntity t " +
             "WHERE t.user.id = :userId")
     List<TaskEntity> findAllByUserId(Long userId);
+
+    void deleteByIdAndUserId(Long id, Long userId);
 }
